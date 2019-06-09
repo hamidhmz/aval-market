@@ -1,8 +1,10 @@
-import mongoose from "mongoose";
-import joi from "joi";
-import jwt from "jsonwebtoken";
+import mongoose from "mongoose";//for connect to mongodb database
+import joi from "joi";//for validation data
+import jwt from "jsonwebtoken";//for generate token
+// config lets you define a set of default parameters, and extend them for different deployment environments(development, qa, staging, production, etc.)   https://www.npmjs.com/package/config
+// in this app is set in docker config it is mean that config module use config/docker.json file if you wanna change that go to docker-compose.yml and set NODE_ENV to anything you want (e.g : export NODE_ENV=production) and  create JSON file in the config and customize it
 import config from "config";
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({ // create schema with mongoose module
     userName:{
         type:String,
         require:true,
@@ -12,7 +14,7 @@ const userSchema = new mongoose.Schema({
     email:{
         type:String,
         require: true,
-        unique:true
+        unique:true//email must be unique
     },
     password:{
         type:String,
@@ -21,8 +23,8 @@ const userSchema = new mongoose.Schema({
         maxlength: 255
     },
 });
-userSchema.methods.generateAuthToken = function(){
-    return jwt.sign({_id:this._id},config.get("jwtPrivateKey"),{ expiresIn:  "1h" });
+userSchema.methods.generateAuthToken = function(){//add generateAuthToken to userSchema.methods will give generateAuthToken to User and we can use it like this user.generateAuthToken()
+    return jwt.sign({_id:this._id},config.get("jwtPrivateKey"),{ expiresIn:  "1h" });// whenever you use user.generateAuthToken() _id will take from user
 };
 
 const User = mongoose.model('User', userSchema);
@@ -31,7 +33,7 @@ function registerValidation(User) {
     const schema = {
         userName: joi.string().min(5).max(50).required(),
         email: joi.string().email().min(5).max(50).required(),
-        password: joi.string().min(5).max(50).required().strip()
+        password: joi.string().min(5).max(50).required().strip()//Marks a key to be removed from a resulting object or array after validation. Used to sanitize output.
     };
 
     return joi.validate(User, schema);
@@ -39,7 +41,7 @@ function registerValidation(User) {
 function loginValidation(User) {
     const schema = {
         email: joi.string().email().min(5).max(50).required(),
-        password: joi.string().min(5).max(50).required().strip()
+        password: joi.string().min(5).max(50).required().strip()//Marks a key to be removed from a resulting object or array after validation. Used to sanitize output.
     };
 
     return joi.validate(User, schema);

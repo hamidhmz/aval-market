@@ -60,7 +60,7 @@ router.post('/register', async (req, res) => {
  */
 router.post('/login', async (req, res) => {
     const { error } = loginValidation(req.body);// this function come from User model file and this function use joi module for validation .password,email is require and a valid email (unique) is require ,password minimum 5 character and maximum 50 character is require
-    if (error) return res.status(400).send(error.details[0].message);
+    if (error) return res.status(400).send(error.details[0].message);//if req data that come from client aren't valid data loginValidation function will return error object
 
 
     let user = await User.findOne({email:req.body.email});// finding user by email address
