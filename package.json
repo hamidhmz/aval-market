@@ -1,0 +1,33 @@
+{
+  "name": "aval-market",
+  "version": "1.0.0",
+  "description": "About Avalmarket app This is a web application that uses nodejs and express framework and mongoDB for database,this app is just a recruitment test of Avalmarket company:  gitHub link. This app has 3 route that one of them require JWT.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js --exec babel-node --presets babel-preset-env -L",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hamidhmz/aval-market.git"
+  },
+  "author": "hamidhmz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hamidhmz/aval-market/issues"
+  },
+  "homepage": "https://github.com/hamidhmz/aval-market#readme",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "bcrypt-nodejs": "0.0.3",
+    "config": "^3.1.0",
+    "express": "^4.17.1",
+    "helmet": "^3.18.0",
+    "joi": "^14.3.1",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.11",
+    "mongoose": "^5.5.13",
+    "nodemon": "^1.19.1"
+  }
+}

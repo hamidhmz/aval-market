@@ -1,0 +1,414 @@
+FORMAT: 1A
+HOST: http://localhost
+
+# Documentation aval-market app
+[github link](https://github.com/hamidhmz/aval-market) for **aval-market** application.
+
+## aval-market app
+This is a web application that uses nodejs and express framework and mongoDB for database,this app is just a recruitment test of Avalmarket company:
+
+for default jwt private key is declared as blew but jwtPrivateKey must be set in environment variables. default jwtPrivateKey:
+
+```http
+jwtPrivateKey: 123456
+```
+for access this app with Api you need :
+```http
+Content Type : application/json
+Data Type : json
+```
+## Basic Features
+this app has 3 routes:
+
+1. user home: /api/users/
+2. user register: /api/users/register
+3. user login: /api/users/login
+
+Here is a table of requires for access to Api:
+
+route | body of request requires | header requires
+-- | ---- | -----------
+/api/users/ | null  | x-auth-token.
+/api/users/register | userName,email,password  | null.
+/api/users/login | email,password  | null.
+
+## Getting Started
+### Introduction
+This section will help you configure your docker server and run it quickly.
+### Step 1. docker
+this app requires docker for run node npm and mongodb so for the first step you need installed docker
+
+### Step 2. docker-compose
+for default, it uses port 80 on the host but you can change that from docker-compose in the section of port you can change that to any available port number, like this:
+like this:
+```http
+    ports:
+      - '{your port}:80'
+```
+and then just write this command:
+```http
+docker-compose up --build
+```
+::: warning
+#### <i class="fa fa-warning"></i> Caution
+If in docker had 2 running container that had the same name as this application (avalmarket-app mongo_avalmarket) this command (docker-compose up --build) does not work so for preventing and solve this issue you can do 2 things as well:
+1.stop this 2 container that running with same name as container of this app
+2.change 2 container name in this app from docker-compose.yml
+:::
+
+
+# Data Structures
+
+## UserData
++ id: 1 (required, number) - Unique identifier
++ title: Grocery list (required) - Single line description
++ body: Buy milk - Full description of the note which supports Markdown.
+
+## UserList (array)
++ (UserData)
+
+# Group Users
+Group description (also with *Markdown*)
+
+## Important Info
+Descriptions may also contain sub-headings and **more Markdown**.
+
+## Register User Api [/api/users/register]
+this Api requires:
+
++ email:it is required and it must be unique and valid email type
++ userName: it is required and it must be minimum 5 character and maximum 50 character
++ password: it is required and it must be minimum 5 character and maximum 50 character
+
+### Create New User [POST]
+Create a new user using an email and userName and password.
++ Request (application/json)
+
+    + Body
+
+            {
+            	"userName":"new user UserName ",
+                "email":"new user email",
+                "password":"new user password"
+            }
++ Response 200 (application/json)
+    + Headers
+
+            x-auth-token: generated token
+    + Body
+
+            {
+                "userName":"new user UserName ",
+                "email":"new user email"
+            }
+
++ Request with used email (application/json)
+
+    + Body
+
+            {
+            	"userName":"new user UserName ",
+            	"email":"used email",
+            	"password":"new user password"
+            }
+
++ Response 400 (text/html)
+
+    + Body
+
+            "User already registered."
+
+
++ Request without email (application/json)
+
+    + Body
+
+            {
+            	"userName":"new user UserName ",
+            	"password":"new user password"
+            }
+
++ Response 400 (text/html)
+
+    + Body
+
+
+            "email" is required
+
+
+
++ Request without userName (application/json)
+
+    + Body
+
+            {
+                "email":"new user email",
+                "password":"new user password"
+            }
+
++ Response 400 (text/html)
+
+    + Body
+
+            "userName" is required
+
+
++ Request without password (application/json)
+
+    + Body
+
+            {
+                "email":"new user email",
+                "userName":"new user userName"
+            }
+
++ Response 400 (text/html)
+
+    + Body
+
+            "password" is required
++ Request invalid email (application/json)
+
+    + Body
+
+            {
+                "email":"new user invalid email",
+                "userName":"new user userName",
+                "password":"new user password"
+            }
+
++ Response 400 (text/html)
+
+    + Body
+
+            "email" must be a valid email
++ Request invalid userName with less than 5 characters (application/json)
+
+    + Body
+
+            {
+                "email":"new user email",
+                "userName":"new user invalid userName",
+                "password":"new user password"
+            }
+
++ Response 400 (text/html)
+
+    + Body
+
+            "userName" length must be at least 5 characters long
++ Request invalid userName with more than 50 characters (application/json)
+
+    + Body
+
+            {
+                "email":"new user email",
+                "userName":"new user invalid userName",
+                "password":"new user password"
+            }
+
++ Response 400 (text/html)
+
+    + Body
+
+            "userName" length must be less than or equal to 50 characters long
++ Request invalid password with less than 5 characters  (application/json)
+
+    + Body
+
+            {
+                "email":"new user email",
+                "userName":"new user userName",
+                "password":"new user invalid password"
+            }
+
++ Response 400 (text/html)
+
+    + Body
+
+            "password" length must be at least 5 characters long
++ Request invalid password with more than 50 characters  (application/json)
+
+    + Body
+
+            {
+                "email":"new user email",
+                "userName":"new user userName",
+                "password":"new user invalid password"
+            }
+
++ Response 400 (text/html)
+
+    + Body
+
+            "password" length must be less than or equal to 50 characters long
+
+## Login User Api [/api/users/Login]
+this Api required:
+
++ email:it is required and it valid email type
++ password: it is required and it must be minimum 5 character and maximum 50 character
+
+### User login [POST]
+Login user using an email and password.
++ Request (application/json)
+
+    + Body
+
+            {
+                "email":"user email",
+                "password":"user password"
+            }
++ Response 200 (application/json)
+    + Headers
+
+            x-auth-token: generated token
+    + Body
+
+            {
+                "userName":"user UserName ",
+                "email":"user email"
+            }
+
++ Request with used invalid email (application/json)
+
+    + Body
+
+            {
+            	"email":"invalid email",
+            	"password":"user password"
+            }
+
++ Response 400 (text/html)
+
+    + Body
+
+            "email" must be a valid email
+
+
++ Request without email (application/json)
+
+    + Body
+
+            {
+            	"password":"user password"
+            }
+
++ Response 400 (text/html)
+
+    + Body
+
+            "email" is required
+
+
++ Request without password (application/json)
+
+    + Body
+
+            {
+                "email":"user email"
+            }
+
++ Response 400 (text/html)
+
+    + Body
+
+            "password" is required
+
++ Request invalid password with less than 5 characters  (application/json)
+
+    + Body
+
+            {
+                "email":"user email",
+                "password":"invalid password"
+            }
+
++ Response 400 (text/html)
+
+    + Body
+
+            "password" length must be at least 5 characters long
++ Request invalid password with more than 50 characters  (application/json)
+
+    + Body
+
+            {
+                "email":"new user email",
+                "password":"invalid password"
+            }
+
++ Response 400 (text/html)
+
+    + Body
+
+            "password" length must be less than or equal to 50 characters long
+
+## User Home Api [/api/users/]
+this Api required:
+
++ x-auth-token:it is required in the header and it must be a valid token
+::: note
+every 1h token would be expired and client need a new one
+:::
+### User Home [GET]
+for access to home, client need a valid token for that client must be done in login or register first and get token from header
+::: note
+if response status will 200 this Api return all users information includes userNames and emails of all users
+:::
++ Request (application/json)
+
+
+    + Headers
+
+            x-auth-token: generated token
+
+
++ Response 200 (application/json)
+    + Body
+
+            [
+                {
+                    "userName": "username1",
+                    "email": "email1"
+                },
+                {
+                    "userName": "username2",
+                    "email": "email2"
+                }
+            ]
+
+
++ Request with invalid token (application/json)
+
+    + Headers
+
+            x-auth-token: invalid token
+
++ Response 400 (text/html)
+
+    + Body
+
+            invalid token.
+
+
++ Request without token (application/json)
+
++ Response 400 (text/html)
+
+    + Body
+
+            access denied. no token provided.
+
+
++ Request with expired token (application/json)
+
+    + Headers
+
+            x-auth-token: expired token
+
++ Response 400 (text/html)
+
+    + Body
+
+            invalid token.

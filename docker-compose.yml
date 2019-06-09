@@ -1,0 +1,22 @@
+version: '3'
+services:
+  mongo:
+    container_name: mongo_avalmarket
+    image: mongo
+    ports:
+      - '27017-27019:27017-27019'
+  app:
+    container_name: avalmarket-app
+    restart: always
+    build: .
+    volumes:
+      - ./:/app
+    tty: true
+    ports:
+      - '80:80'
+    links:
+      - mongo
+    environment:
+      - "PORT=80"
+      - "NODE_ENV=docker"
+      - "jwtPrivateKey="
