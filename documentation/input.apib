@@ -12,7 +12,7 @@ for default jwt private key is declared as blew but jwtPrivateKey must be set in
 ```http
 jwtPrivateKey: 123456
 ```
-for access this app with Api you need :
+for access this app from client side with Api you need :
 ```http
 Content Type : application/json
 Data Type : json
@@ -39,13 +39,13 @@ This section will help you configure your docker server and run it quickly.
 this app requires docker for run node npm and mongodb so for the first step you need installed docker
 
 ### Step 2. docker-compose
-for default, it uses port 80 on the host but you can change that from docker-compose in the section of port you can change that to any available port number, like this:
-like this:
+for default, it uses port 80 on the host but you can change that from docker-compose.yml in the section of port you can change that to any available port number, like this:
+
 ```http
     ports:
       - '{your port}:80'
 ```
-and then just write this command:
+and then just execute this command:
 ```http
 docker-compose up --build
 ```
@@ -68,10 +68,7 @@ If in docker had 2 running container that had the same name as this application 
 + (UserData)
 
 # Group Users
-Group description (also with *Markdown*)
 
-## Important Info
-Descriptions may also contain sub-headings and **more Markdown**.
 
 ## Register User Api [/api/users/register]
 this Api requires:
@@ -270,7 +267,7 @@ Login user using an email and password.
                 "email":"user email"
             }
 
-+ Request with used invalid email (application/json)
++ Request with invalid email (application/json)
 
     + Body
 
