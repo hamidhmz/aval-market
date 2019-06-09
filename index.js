@@ -5,7 +5,7 @@ import startupDb from "./startup/db";//import db configuration
 import startupConfig from "./startup/config";
 import startupProd from "./startup/prod";
 const app = express();// an instance of express
-startupRoutes(app);// set router middle ware and express json body parser
+startupRoutes(app);// set router middleware and express json body parser
 startupDb(mongoose);// set connection for mongodb
 startupConfig();// if jwtPrivateKey does not exist it throw an error
 startupProd(app);// set helmet middleware
