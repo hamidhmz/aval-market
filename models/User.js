@@ -29,6 +29,14 @@ userSchema.methods.generateAuthToken = function(){//add generateAuthToken to use
 
 const User = mongoose.model('User', userSchema);
 
+/**
+ * @desc this function is for validate data in user object for register user operation
+ * @uses for validation give user object and return error object
+ * @examples const { error } = registerValidation({userName:"username",email:"email@email.com",password:"password"})
+ * @author hamidreza nasrollahy h.mosaferkocholo@gmail.com
+ * @return an object include of error , value ,then, catch
+ * @param User this is an object include userName,email,password
+ */
 function registerValidation(User) {
     const schema = {
         userName: joi.string().min(5).max(50).required(),
@@ -38,6 +46,14 @@ function registerValidation(User) {
 
     return joi.validate(User, schema);
 }
+/**
+ * @desc this function is for validate data in user object for login user operation
+ * @uses for validation give user object and return error object if there is any error then fail rest of operation
+ * @examples const { error } = loginValidation({email:"email@email.com",password:"password"})
+ * @author hamidreza nasrollahy h.mosaferkocholo@gmail.com
+ * @return an object include of error , value ,then, catch
+ * @param User this is an object include email,password
+ */
 function loginValidation(User) {
     const schema = {
         email: joi.string().email().min(5).max(50).required(),
