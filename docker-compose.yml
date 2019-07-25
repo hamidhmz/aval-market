@@ -14,8 +14,6 @@ services:
     tty: true
     ports:
       - '80:80'
-    links:
-      - mongo
     environment:
       - "PORT=80"
       - "NODE_ENV=docker"
